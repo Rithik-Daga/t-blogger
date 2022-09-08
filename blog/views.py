@@ -1,9 +1,10 @@
 from .models import Blog
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, AddBlogForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -34,8 +35,17 @@ def search(request):
     return render(request, "blog/search.html", context=context)
 
 
+@login_required(login_url="sign-in")
 def addBlog(request):
-    return render(request, "blog/add-blog.html")
+    form = AddBlogForm()
+    if request.method == "POST":
+        form = AddBlogForm(request.POST)
+        blog = form.save(commit=False)
+        blog.author = request.user
+        blog.save()
+        return redirect("home")
+    context = {"form": form}
+    return render(request, "blog/add-blog.html", context=context)
 
 
 def signUp(request):

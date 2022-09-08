@@ -27,6 +27,7 @@ IS_HEROKU = os.environ.get("DYNO", None)
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 if IS_HEROKU:
     DEBUG = True
     ALLOWED_HOSTS = ["*"]
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "blog.apps.BlogConfig",
+    "django_quill",
 ]
 
 MIDDLEWARE = [
@@ -93,7 +95,7 @@ DATABASES = {
 if IS_HEROKU:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgres",
+            "ENGINE": "django.db.backends.postgresql",
             "NAME": os.environ.get("POSTGRES_DATABASE"),
             "USER": os.environ.get("POSTGRES_USER"),
             "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),

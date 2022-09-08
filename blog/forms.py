@@ -1,5 +1,6 @@
 from . import models
 from django import forms
+from django_quill.forms import QuillFormField
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -94,3 +95,17 @@ class BlogImageForm(forms.ModelForm):
         self.fields["image"].widget = forms.ClearableFileInput(
             attrs={"multiple": True, "required": False}
         )
+
+
+class AddBlogForm(forms.ModelForm):
+
+    content = QuillFormField()
+
+    class Meta:
+        model = models.Blog
+        fields = ["title", "content", "summary"]
+
+    def __init__(self, *args, **kwargs):
+        super(AddBlogForm, self).__init__(*args, **kwargs)
+        for _, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})

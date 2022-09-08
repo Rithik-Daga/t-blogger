@@ -1,4 +1,5 @@
 from django.db import models
+from django_quill.fields import QuillField
 from utils import helper_functions as hf
 from django.contrib.auth.models import User
 
@@ -8,7 +9,7 @@ class Blog(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, verbose_name="Title", null=True)
     summary = models.TextField(max_length=300, verbose_name="Summary", null=True)
-    content = models.TextField(max_length=2000, verbose_name="Content", null=True)
+    content = QuillField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
