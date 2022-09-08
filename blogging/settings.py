@@ -90,6 +90,18 @@ DATABASES = {
     }
 }
 
+if IS_HEROKU:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgres",
+            "NAME": os.environ.get("POSTGRES_DATABASE"),
+            "USER": os.environ.get("POSTGRES_USER"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+            "PORT": os.environ.get("POSTGRES_PORT"),
+            "HOST": os.environ.get("POSTGRES_HOST"),
+        }
+    }
+
 if "DATABASE_URL" in os.environ:
     # Configure Django for DATABASE_URL environment variable.
     DATABASES["default"] = dj_database_url.config(
